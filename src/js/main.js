@@ -11,6 +11,12 @@ var Camera = require('./object/Camera.js');
 
 var Cube = require('./object/Cube.js');
 
+// var glsl = require('glslify');
+// var Vart = require('../glsl/test.vert');
+
+// var src = glsl.file('./src/glsl/test.glsl')
+// console.log(Vart);
+
 'use strict';
 
 (function() {
@@ -117,22 +123,32 @@ var PlaneObject = new Plane();
     // //Cubeをシーンに追加
     this.scene.add(this.CubeObject);
 
-    //sphereGeometry
-    var sphereGeometry = new THREE.SphereGeometry(4, 20,20);
+    var card = null;  // 必要に応じてグローバルで宣言しておく
 
-    //sphereMaterial
-    var sphereMaterial = new THREE.MeshLambertMaterial({
-      color: 0x7777ff, wireframe: false
+
+    var cardTexture = THREE.ImageUtils.loadTexture('img/card.png');  // テクスチャの読み込み★
+    var cardGeometry = new THREE.PlaneGeometry(160, 256, 20, 32);       // ジオメトリの作成
+
+    var carMaterialShaderSimple = new THREE.ShaderMaterial({            // シェーダを自分で指定するマテリアルを作ります
+      vertexShader: require('../glsl/test.vert'),  // 同じhtmlファイル内の id='vertexShaderSimple' で記述されています
+      fragmentShader: require('../glsl/test.frag'),    // 同じhtmlファイル内の id='fragmentShader' で記述されています
+      uniforms: {
+        curlR: { type: 'f', value: 100.0},         // シェーダに曲げの半径をuniform変数として渡す
+        texture: { type: 't', value: cardTexture}
+      }
     });
+    carMaterialShaderSimple.side = THREE.DoubleSide;                    // 両面描画する
+    carMaterialShaderSimple.transparent = true;                         // 透過、半透過の指定
+    carMaterialShaderSimple.blending = THREE.NormalBlending;
 
-    //sphere
-    var sphere = new THREE.Mesh(sphereGeometry,sphereMaterial);
-    sphere.castShadow = true;
-    //sphereを回転
-    sphere.position.x = 20;
-    sphere.position.y = 4;
-    sphere.position.z = 2;
-    // this.scene.add(sphere);
+    // var cardMaterial = new THREE.MeshBasicMaterial({map: cardTexture}); // 標準のマテリアルを作成し、★テクスチャをマップして利用する
+    // cardMaterial.side = THREE.DoubleSide;                               // 両面描画する
+    // cardMaterial.transparent = true;                                    // 透過、半透過の指定
+    // cardMaterial.blending = THREE.NormalBlending;                       // ブレンディングの指定
+
+    card = new THREE.Mesh(cardGeometry, carMaterialShaderSimple);                  // ジオメトリとマテリアルからメッシュ(シェーディングまで含んだ3Dオブジェクト)の作成
+    card.position.set(0, 0, -5);                                        // 位置の指定
+    this.scene.add(card);
 
 
     document.getElementById("WebGL-output").appendChild(this.renderer.domElement);
@@ -143,38 +159,30 @@ var PlaneObject = new Plane();
       stats.update();
 
       // rotate the cube around its axes
-      this.CubeObject.rotation.x += 0.02;
-      this.CubeObject.rotation.y += 0.02;
-      this.CubeObject.rotation.z += 0.02;
-
-      step += 0.01;
-      this.camera.position.z += (this.CubeObject.position.z+100 - this.camera.position.z)*0.1;
-      this.camera.position.y += (this.CubeObject.position.y+50 - this.camera.position.y)*0.1;
+      // this.CubeObject.rotation.x += 0.02;
+      // this.CubeObject.rotation.y += 0.02;
+      // this.CubeObject.rotation.z += 0.02;
+      //
+      // step += 0.01;
+      // this.camera.position.z += (this.CubeObject.position.z+100 - this.camera.position.z)*0.1;
+      // this.camera.position.y += (this.CubeObject.position.y+50 - this.camera.position.y)*0.1;
       // this.camera.position.x = Math.cos(step) * 200;
       // this.camera.position.y = Math.sin(step*2) * 90;
       // this.camera.position.z = Math.sin(step) * 90 + 200;
 
-      this.lookat_x = Math.sin(step*0.4)*50;
-      this.lookat_y = Math.cos(step*1.4)*50;
-      this.camera.lookAt(new THREE.Vector3(this.lookat_x, this.lookat_y, 0));
+      // this.lookat_x = Math.sin(step*0.4)*50;
+      // this.lookat_y = Math.cos(step*1.4)*50;
+      // this.camera.lookAt(new THREE.Vector3(this.lookat_x, this.lookat_y, 0));
 
-
-      // bounce the sphere up and down
-      // step += 0.04;
-      // sphere.position.x = 20 + ( 10 * (Math.cos(step)));
-      // sphere.position.y = 2 + ( 10 * Math.abs(Math.sin(step)));
 
       // render using requestAnimationFrame
-      requestAnimationFrame(renderScene);
-      this.renderer.render(this.scene, this.camera);
-      // this.updateAnimation();
+      // requestAnimationFrame(renderScene);
+      // this.renderer.render(this.scene, this.camera);
     }.bind(this);
 
     // call the render function
     var step = 0;
     renderScene();
-
-
 
     /**
      * dat.gui
@@ -189,27 +197,20 @@ var PlaneObject = new Plane();
     gui.add(controls, 'rotationSpeed', 0, 0.1);
     gui.add(controls, 'bouncingSpeed', 0, 0.1);
 
-    // var render =  function() {
-    //   stats.update();
+    var render =  function() {
+      stats.update();
     //
-    //
-    //
-    //
+
     //   // window.console.log('CubeX',CubeObject.init().rotation.x);
     //   // rotate the cube around its axes
     //   // CubeObject.init().rotation.x += controls.rotationSpeed;
     //   // CubeObject.init().rotation.y += controls.rotationSpeed;
     //   // CubeObject.init().rotation.z += controls.rotationSpeed;
-    //
-    //   // bounce the sphere up and down
-    //   // step += controls.bouncingSpeed;
-    //   // sphere.position.x = 20 + ( 10 * (Math.cos(step)));
-    //   // sphere.position.y = 2 + ( 10 * Math.abs(Math.sin(step)));
-    //
-    //   requestAnimationFrame(render);
-    //   this.renderer.render(this.scene, this.camera);
-    // }.bind(this);
-    // render();
+
+      requestAnimationFrame(render);
+      this.renderer.render(this.scene, this.camera);
+    }.bind(this);
+    render();
 
   };
 

@@ -11,6 +11,10 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel'
+      },
+      {
+        test: /\.(vert|frag)$/,
+        loaders: ['raw', 'glslify']
       }
     ]
   },

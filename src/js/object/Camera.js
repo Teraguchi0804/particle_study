@@ -41,9 +41,9 @@ var Camera = (function () {
 
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-    this.camera.position.x = -30;
-    this.camera.position.y = 40;
-    this.camera.position.z = 30;
+    this.camera.position.x = -300;
+    this.camera.position.y = 400;
+    this.camera.position.z = 300;
     // this.camera.lookAt( gb.in.scene.scene.position );
     this.camera.lookAt(this.vec3);
     // window.console.log('A',this.camera);

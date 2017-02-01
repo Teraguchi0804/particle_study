@@ -16,6 +16,11 @@
     "browser-sync": "^2.17.5",
     "dat-gui": "^0.5.0",
     "es6-promise": "^4.0.5",
+    "gl-matrix": "^2.3.1",
+    "glsl-easings": "^1.0.0",
+    "glsl-range": "^1.0.0",
+    "glslify-hex": "^2.0.1",
+    "glslify-loader": "^1.0.2",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.1",
     "gulp-clean-css": "^2.0.13",
@@ -33,6 +38,7 @@
     "imagemin-pngquant": "^5.0.0",
     "jshint": "^2.9.4",
     "jshint-stylish": "^2.0.1",
+    "raw-loader": "^0.5.1",
     "webpack": "^1.13.3",
     "webpack-stream": "^3.2.0"
   },
@@ -50,6 +56,7 @@
   },
   "homepage": "",
   "dependencies": {
+    "glslify": "^5.1.0",
     "jquery": "^3.1.1",
     "three": "^0.82.1"
   }
