@@ -3,7 +3,7 @@ var Stats = require('./libs/stats.js');
 var dat　= require('dat-gui');
 
 require('./object/Plane.js');
-// require('./libs/ParametricGeometries.js');
+require('./libs/OrbitControls.js');
 // require('./libs/ConvexGeometry.js');
 
 var Scene = require('./object/Scene.js');
@@ -81,6 +81,7 @@ var PlaneObject = new Plane();
     this.renderer.setSize( window.innerWidth, window.innerHeight );
     this.renderer.shadowMap.enabled = true;
 
+
     // 高解像度対応
     var pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
     this.renderer.setPixelRatio(pixelRatio);
@@ -92,6 +93,10 @@ var PlaneObject = new Plane();
     //camera
     gb.in.camera = new Camera();
     this.camera = gb.in.camera.camera;
+
+    //
+    gb.in.controls = new THREE.OrbitControls(this.camera);
+    this.controls = gb.in.controls;
 
     // add subtle ambient lighting
     var ambientLight = new THREE.AmbientLight(0x090909);
@@ -174,10 +179,12 @@ var PlaneObject = new Plane();
       // this.lookat_y = Math.cos(step*1.4)*50;
       // this.camera.lookAt(new THREE.Vector3(this.lookat_x, this.lookat_y, 0));
 
+      this.controls.update();
+
 
       // render using requestAnimationFrame
-      // requestAnimationFrame(renderScene);
-      // this.renderer.render(this.scene, this.camera);
+      requestAnimationFrame(renderScene);
+      this.renderer.render(this.scene, this.camera);
     }.bind(this);
 
     // call the render function
@@ -217,7 +224,7 @@ var PlaneObject = new Plane();
   //Stats表示設定
   function initStats() {
 
-    var stats = gb.in.stats = new Stats();
+    var stats = new Stats();
 
     stats.setMode(0); // 0: fps, 1: ms
 
