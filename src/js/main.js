@@ -3,7 +3,7 @@ var Stats = require('./libs/stats.js');
 var dat　= require('dat-gui');
 
 require('./libs/OrbitControls.js');
-require('./libs/GPUComputationRenderer.js');
+var GPUComputationRenderer = require('./libs/GPUComputationRenderer.js');
 
 var Scene = require('./object/Scene.js');
 var Camera = require('./object/Camera.js');
@@ -90,7 +90,7 @@ var Cube = require('./object/Cube.js');
     if (!this.renderer) {
       alert('Three.jsの初期化に失敗しました。');
     }
-    this.renderer.setClearColor(new THREE.Color(0xEEEEEE));
+    this.renderer.setClearColor(new THREE.Color(0x000000));
     this.renderer.setSize( window.innerWidth, window.innerHeight );
     this.renderer.shadowMap.enabled = true;
 
@@ -140,7 +140,7 @@ var Cube = require('./object/Cube.js');
 
 
     // ①gpuCopute用のRenderを作る
-    initComputeRenderer();
+    p.initComputeRenderer();
 
     // ②particle 初期化
     initPosition();
@@ -224,10 +224,10 @@ var Cube = require('./object/Cube.js');
   }
 
   // ①gpuCopute用のRenderを作る
-  function initComputeRenderer() {
+  p.initComputeRenderer = function() {
 
     // gpgpuオブジェクトのインスタンスを格納
-    gpuCompute = new GPUComputationRenderer( WIDTH, WIDTH, renderer );
+    gpuCompute = new GPUComputationRenderer(WIDTH, WIDTH, gb.in.renderer);
 
     // 今回はパーティクルの位置情報と、移動方向を保存するテクスチャを2つ用意します
     var dtPosition = gpuCompute.createTexture();
@@ -310,13 +310,11 @@ var Cube = require('./object/Cube.js');
 
     // uniform変数をオブジェクトで定義
     // 今回はカメラをマウスでいじれるように、計算に必要な情報もわたす。
-    particleUniforms = {
+    gb.in.particleUniforms = particleUniforms = {
       texturePosition: { value: null },
       textureVelocity: { value: null },
       cameraConstant: { value: getCameraConstant( gb.in.camera.camera ) }
     };
-
-
 
     // Shaderマテリアル これはパーティクルそのものの描写に必要なシェーダー
     var material = new THREE.ShaderMaterial( {
@@ -428,7 +426,8 @@ var Cube = require('./object/Cube.js');
     this.renderer.setSize(this.width, this.height);
 
 
-    particleUniforms.cameraConstant.value = getCameraConstant(this.camera);
+
+    // gb.in.particleUniforms.cameraConstant.value = getCameraConstant(this.camera);
   };
 
 

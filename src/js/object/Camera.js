@@ -39,11 +39,11 @@ var Camera = (function () {
   p.create = function () {
     // this.scene = new THREE.Camera();
 
-    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 5, 15000);
 
-    this.camera.position.x = -300;
-    this.camera.position.y = 400;
-    this.camera.position.z = 300;
+    // this.camera.position.x = -300;
+    this.camera.position.y = 120;
+    this.camera.position.z = 200;
     // this.camera.lookAt( gb.in.scene.scene.position );
     this.camera.lookAt(this.vec3);
     // window.console.log('A',this.camera);

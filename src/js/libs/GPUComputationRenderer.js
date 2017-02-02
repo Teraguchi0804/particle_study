@@ -368,3 +368,5 @@ function GPUComputationRenderer( sizeX, sizeY, renderer ) {
 	}
 
 }
+
+module.exports = GPUComputationRenderer;
