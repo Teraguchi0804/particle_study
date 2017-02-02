@@ -76,8 +76,8 @@ var Cube = require('./object/Cube.js');
   p.init = function () {
     var self = this;
 
+    //
     var stats = initStats();
-
 
 
     this.$window = $(window);
@@ -112,16 +112,6 @@ var Cube = require('./object/Cube.js');
     this.controls = gb.in.controls;
     this.controls.update();
 
-    // add subtle ambient lighting
-    // var ambientLight = new THREE.AmbientLight(0x090909);
-    // this.scene.add(ambientLight);
-
-    // add spotlight for the shadows
-    // var spotLight = new THREE.SpotLight(0xffffff);
-    // spotLight.position.set(-25, 25, 32);
-    // spotLight.castShadow = true;
-    // this.scene.add(spotLight);
-
     // window resize
     this.$window.on('resize', function(e) {
       self.onResize();
@@ -144,37 +134,6 @@ var Cube = require('./object/Cube.js');
 
     // ②particle 初期化
     initPosition();
-
-    renderScene = function () {
-      stats.update();
-
-      // rotate the cube around its axes
-      // this.CubeObject.rotation.x += 0.02;
-      // this.CubeObject.rotation.y += 0.02;
-      // this.CubeObject.rotation.z += 0.02;
-      //
-      // step += 0.01;
-      // this.camera.position.z += (this.CubeObject.position.z+100 - this.camera.position.z)*0.1;
-      // this.camera.position.y += (this.CubeObject.position.y+50 - this.camera.position.y)*0.1;
-      // this.camera.position.x = Math.cos(step) * 200;
-      // this.camera.position.y = Math.sin(step*2) * 90;
-      // this.camera.position.z = Math.sin(step) * 90 + 200;
-
-      // this.lookat_x = Math.sin(step*0.4)*50;
-      // this.lookat_y = Math.cos(step*1.4)*50;
-      // this.camera.lookAt(new THREE.Vector3(this.lookat_x, this.lookat_y, 0));
-
-
-
-
-      // render using requestAnimationFrame
-      requestAnimationFrame(renderScene);
-      this.renderer.render(this.scene, this.camera);
-    }.bind(this);
-
-    // call the render function
-    var step = 0;
-    renderScene();
 
     /**
      * dat.gui
@@ -374,35 +333,6 @@ var Cube = require('./object/Cube.js');
 
 
 
-  // 画面がリサイズされたときの処理
-  // ここでもシェーダー側に情報を渡す。
-  // function onWindowResize() {
-  //   camera.aspect = window.innerWidth / window.innerHeight;
-  //   camera.updateProjectionMatrix();
-  //   renderer.setSize( window.innerWidth, window.innerHeight );
-  //   particleUniforms.cameraConstant.value = getCameraConstant( camera );
-  // }
-
-
-  // function animate() {
-  //   requestAnimationFrame( animate );
-  //   render();
-  //   stats.update();
-  // }
-
-
-
-  // function render() {
-  //   gpuCompute.compute();
-  //
-  //   // Three.js用のGPGPUライブラリでは、以下のように情報を更新することができる。
-  //   // 現在の情報を、保存用のメモリに格納するおまじない。
-  //   particleUniforms.texturePosition.value = gpuCompute.getCurrentRenderTarget( positionVariable ).texture;
-  //   particleUniforms.textureVelocity.value = gpuCompute.getCurrentRenderTarget( velocityVariable ).texture;
-  //   renderer.render( scene, camera );
-  // }
-
-
   /**
    * アニメーションループ内で実行される
    */
@@ -425,8 +355,7 @@ var Cube = require('./object/Cube.js');
 
     this.renderer.setSize(this.width, this.height);
 
-
-
+    //ここでもシェーダー側に情報を渡す。
     // gb.in.particleUniforms.cameraConstant.value = getCameraConstant(this.camera);
   };
 
