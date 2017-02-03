@@ -114,6 +114,7 @@ gulp.task('default', function () {
     server: "./dist/"
   });
   gulp.watch('src/js/**/*.js', ['webpack']).on('change', reload);
+  gulp.watch('src/glsl/**/*', ['webpack']).on('change', reload);
   gulp.watch('src/css/**/*.scss', ['sass']).on('change', reload);
   gulp.watch('src/**/*.html', ['html']).on('change', reload);
   gulp.watch('src/img/**/*', ['image']).on('change', reload);

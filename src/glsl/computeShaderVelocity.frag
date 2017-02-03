@@ -9,5 +9,10 @@ void main() {
     vec4 tmpVel = texture2D( textureVelocity, uv );
     vec3 vel = tmpVel.xyz;
 
+//ノイズ実装しようとしている。。。
+//    float rand = random(10);
+//    float noise = noise(rand);
+//    vel = vel * noise;
+
     gl_FragColor = vec4( vel.xyz, 1.0 );
 }

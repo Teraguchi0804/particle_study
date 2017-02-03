@@ -145,8 +145,8 @@ var Cube = require('./object/Cube.js');
     };
 
     var gui = new dat.GUI();
-    gui.add(controls, 'rotationSpeed', 0, 0.1);
-    gui.add(controls, 'bouncingSpeed', 0, 0.1);
+    // gui.add(controls, 'rotationSpeed', 0, 0.1);
+    // gui.add(controls, 'bouncingSpeed', 0, 0.1);
 
     var render =  function() {
       stats.update();
