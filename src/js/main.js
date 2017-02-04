@@ -323,8 +323,6 @@ var Cube = require('./object/Cube.js');
     }
   }
 
-
-
   // カメラオブジェクトからシェーダーに渡したい情報を引っ張ってくる関数
   // カメラからパーティクルがどれだけ離れてるかを計算し、パーティクルの大きさを決定するため。
   var getCameraConstant = function(camera) {
